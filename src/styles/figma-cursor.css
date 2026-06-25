@@ -1,0 +1,149 @@
+/* Global Figma-style cursor — single arrow, bulges on hover, sparkles on click */
+
+body.figma-cursor-active,
+body.figma-cursor-active * {
+  cursor: none !important;
+}
+
+#figma-cursor-root {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 2147483647;
+  overflow: visible;
+  isolation: isolate;
+}
+
+.figma-cursor-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  overflow: visible;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.figma-cursor-svg {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: visible;
+  filter: drop-shadow(0 1.5px 3px rgb(0 0 0 / 0.35));
+  transition: transform 120ms ease, filter 120ms ease;
+}
+
+/* Default arrow — tip always anchored at pointer (5px 3px) */
+.figma-cursor-layer[data-mode="default"] .figma-cursor-svg[data-cursor-mode="default"] {
+  display: block;
+  width: 42px;
+  height: 42px;
+  transform-origin: 5px 3px;
+}
+
+/* Bulge over buttons, links, sidebar — same shape, no hand swap */
+.figma-cursor-layer[data-mode="default"][data-interactive="true"] .figma-cursor-svg[data-cursor-mode="default"] {
+  transform: scale(1.14);
+  filter:
+    drop-shadow(0 2px 4px rgb(0 0 0 / 0.4))
+    drop-shadow(0 0 8px rgb(13 153 255 / 0.45));
+}
+
+.figma-cursor-layer[data-mode="default"].figma-cursor-down .figma-cursor-svg[data-cursor-mode="default"] {
+  transform: scale(0.92);
+  transform-origin: 5px 3px;
+}
+
+.figma-cursor-layer[data-mode="default"][data-interactive="true"].figma-cursor-down .figma-cursor-svg[data-cursor-mode="default"] {
+  transform: scale(1.02);
+  transform-origin: 5px 3px;
+}
+
+/* Crosshair — pin placement */
+.figma-cursor-layer[data-mode="crosshair"] .figma-cursor-svg[data-cursor-mode="crosshair"] {
+  display: block;
+  width: 32px;
+  height: 32px;
+  margin-left: -16px;
+  margin-top: -16px;
+}
+
+/* Text — I-beam */
+.figma-cursor-layer[data-mode="text"] .figma-cursor-svg[data-cursor-mode="text"] {
+  display: block;
+  width: 22px;
+  height: 22px;
+  margin-left: -11px;
+  margin-top: -11px;
+}
+
+/* Click glitter burst */
+.figma-cursor-sparkle {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  margin-left: -2.5px;
+  margin-top: -2.5px;
+  border-radius: 1px;
+  transform: rotate(var(--rot, 0deg));
+  box-shadow: 0 0 6px currentColor;
+  animation: figma-sparkle-burst 520ms ease-out forwards;
+}
+
+.figma-cursor-click-flash {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  margin-left: -14px;
+  margin-top: -14px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgb(255 255 255 / 0.95) 0%,
+    rgb(13 153 255 / 0.55) 35%,
+    rgb(255 215 0 / 0.25) 55%,
+    transparent 72%
+  );
+  animation: figma-click-flash 420ms ease-out forwards;
+}
+
+@keyframes figma-sparkle-burst {
+  0% {
+    opacity: 1;
+    transform: rotate(var(--rot, 0deg)) translate(0, 0) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(calc(var(--rot, 0deg) + 90deg)) translate(var(--tx), var(--ty)) scale(0);
+  }
+}
+
+@keyframes figma-click-flash {
+  0% {
+    opacity: 1;
+    transform: scale(0.4);
+  }
+  40% {
+    opacity: 0.85;
+    transform: scale(1.15);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+
+@media (pointer: coarse) {
+  body.figma-cursor-active,
+  body.figma-cursor-active * {
+    cursor: auto !important;
+  }
+
+  #figma-cursor-root {
+    display: none;
+  }
+}
