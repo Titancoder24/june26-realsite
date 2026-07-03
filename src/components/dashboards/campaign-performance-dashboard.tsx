@@ -74,10 +74,13 @@ export function CampaignPerformanceDashboard() {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="section-title">Campaign Hub</h1>
-        <p className="text-muted-foreground">UTM campaign performance, session trends, and lead conversion — live from Supabase.</p>
+    <div className="bi-dashboard bi-module-shell p-6">
+      <div className="bi-module-hero">
+        <div>
+          <p className="bi-module-kicker">Calls & Campaigns</p>
+          <h1>Campaign report center</h1>
+          <p>UTM campaign performance, session trends, call-ready lead conversion, and quick actions with the same modern report layout as Brochure Reports.</p>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -91,8 +94,8 @@ export function CampaignPerformanceDashboard() {
         <CampaignQuickActions onExport={() => { window.location.href = "/api/leads/export"; }} />
       </div>
 
-      <Card>
-        <CardHeader><CardTitle>Create campaign link</CardTitle></CardHeader>
+      <Card className="bi-finance-card">
+        <CardHeader className="flex flex-row items-start justify-between"><CardTitle className="text-base">Create campaign link</CardTitle><span className="bi-soft-select">Generator</span></CardHeader>
         <CardContent className="grid gap-3 md:grid-cols-2">
           <select className="rounded-md border px-3 py-2 text-sm" value={form.property_id} onChange={(e) => setForm({ ...form, property_id: e.target.value })}>
             <option value="">Select property</option>
@@ -107,7 +110,7 @@ export function CampaignPerformanceDashboard() {
 
       <div className="space-y-3">
         {campaigns.map((c) => (
-          <Card key={c.id}>
+          <Card key={c.id} className="bi-finance-card">
             <CardContent className="py-4">
               <p className="font-medium">{c.properties?.name} — {c.utm_campaign}</p>
               <p className="text-xs text-muted-foreground">{c.sessions ?? 0} sessions · {c.leads ?? 0} leads · {c.hotLeads ?? 0} hot</p>
@@ -115,7 +118,7 @@ export function CampaignPerformanceDashboard() {
             </CardContent>
           </Card>
         ))}
-        {!campaigns.length && <p className="text-sm text-muted-foreground">No campaigns yet. Create a UTM link above.</p>}
+        {!campaigns.length && <Card className="bi-finance-card border-dashed"><CardContent className="py-8 text-sm text-muted-foreground">No campaigns yet. Create a UTM link above.</CardContent></Card>}
       </div>
     </div>
   );
@@ -130,9 +133,9 @@ function CampaignQuickActions({ onExport }: { onExport: () => void }) {
   ];
 
   return (
-    <Card>
+    <Card className="bi-finance-card">
       <CardHeader>
-        <CardTitle>Quick actions</CardTitle>
+        <CardTitle className="text-base">Quick actions</CardTitle>
       </CardHeader>
       <CardContent className="space-y-2">
         {actions.map((a) => (

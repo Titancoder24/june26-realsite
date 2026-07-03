@@ -16,17 +16,17 @@ export function SidebarThemePicker({
   onModeChange: (mode: SidebarMode) => void;
 }) {
   return (
-    <div className="sidebar-theme-widget flex flex-col items-center gap-1 px-1 py-1.5">
+    <div className="sidebar-theme-widget flex flex-col items-center gap-2 px-2 py-2">
       <div
-        className="flex rounded-md bg-white/10 p-px"
+        className="sidebar-theme-mode-toggle flex rounded-xl bg-zinc-950 p-1 shadow-[0_1px_2px_rgb(0_0_0/0.18)]"
         role="group"
         aria-label="Appearance mode"
       >
         <button
           type="button"
           className={cn(
-            "flex h-6 w-6 items-center justify-center rounded-[5px] text-white/60 transition-colors",
-            mode === "light" && "bg-white/20 text-white",
+            "flex h-7 w-7 items-center justify-center rounded-lg text-white/55 transition-colors",
+            mode === "light" && "bg-white text-zinc-950 shadow-sm",
           )}
           onClick={() => onModeChange("light")}
           aria-label="Light mode"
@@ -37,8 +37,8 @@ export function SidebarThemePicker({
         <button
           type="button"
           className={cn(
-            "flex h-6 w-6 items-center justify-center rounded-[5px] text-white/60 transition-colors",
-            mode === "dark" && "bg-white/20 text-white",
+            "flex h-7 w-7 items-center justify-center rounded-lg text-white/55 transition-colors",
+            mode === "dark" && "bg-white text-zinc-950 shadow-sm",
           )}
           onClick={() => onModeChange("dark")}
           aria-label="Dark mode"
@@ -48,7 +48,7 @@ export function SidebarThemePicker({
         </button>
       </div>
 
-      <div className="flex items-center justify-center gap-0.5" role="listbox" aria-label="Accent color">
+      <div className="sidebar-theme-accent-picker flex items-center justify-center gap-1 rounded-full bg-zinc-950 px-2 py-1.5 shadow-[0_1px_2px_rgb(0_0_0/0.18)]" role="listbox" aria-label="Accent color">
         {SIDEBAR_THEMES.map((t) => (
           <button
             key={t.id}
@@ -61,10 +61,10 @@ export function SidebarThemePicker({
             className={cn(
               "h-3.5 w-3.5 shrink-0 rounded-full transition-all duration-150",
               value === t.id
-                ? "ring-[1.5px] ring-white ring-offset-[1.5px] ring-offset-sidebar"
+                ? "ring-[1.5px] ring-white ring-offset-[1.5px] ring-offset-zinc-950"
                 : "opacity-75 hover:opacity-100",
             )}
-            style={{ backgroundColor: t.swatch }}
+            style={{ backgroundColor: "#0f172a" }}
           />
         ))}
       </div>

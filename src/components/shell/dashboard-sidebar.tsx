@@ -8,6 +8,7 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -22,6 +23,8 @@ import type { NavGroup } from "@/components/shell/dashboard-nav";
 import type { UserRole } from "@/types/domain";
 import { BrandMark } from "@/components/shell/brand-mark";
 import { cn } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/client";
+import { useEffect, useState } from "react";
 
 function NavLink({
   href,
@@ -74,31 +77,50 @@ export function DashboardSidebar({
   const { themeId, setThemeId, mode, setMode } = useAppTheme();
   const { expanded, toggle, layout, isMobile } = useSidebarExpand();
   const { isMobile: sidebarMobile } = useSidebar();
+  const [userLabel, setUserLabel] = useState<string>("");
+
+  useEffect(() => {
+    const supabase = createClient();
+    void supabase.auth.getUser().then(async ({ data: { user } }) => {
+      if (!user) return;
+      const { data } = await supabase.from("profiles").select("full_name, email").eq("id", user.id).single();
+      setUserLabel(data?.full_name?.trim() || data?.email || user.email || "");
+    });
+  }, []);
+
+  // Mobile drawer: use expanded labels so items are readable. Desktop: rail or expanded.
+  const navLayout = sidebarMobile ? "expanded" : layout;
+  const navExpanded = sidebarMobile || expanded;
 
   return (
     <Sidebar
       collapsible={sidebarMobile ? "offcanvas" : "none"}
-      data-sidebar-layout={layout}
-      data-sidebar-expanded={expanded ? "true" : "false"}
+      data-sidebar-layout={navLayout}
+      data-sidebar-expanded={navExpanded ? "true" : "false"}
       className="shrink-0 border-r-0 border-sidebar-border bg-sidebar text-sidebar-foreground shadow-none"
+      style={
+        sidebarMobile
+          ? ({ "--sidebar-width": "18rem" } as React.CSSProperties)
+          : undefined
+      }
     >
       <SidebarHeader className="shrink-0 border-b border-sidebar-border/60 px-2 py-4">
-        {expanded ? (
+        {navExpanded ? (
           <div className="flex items-center justify-between gap-2 px-1">
             <Link
               href="/dashboard"
               className="flex min-w-0 items-center gap-2.5 text-sidebar-foreground transition-opacity hover:opacity-90"
             >
-              <div className="sidebar-brand-mark flex h-[2.625rem] w-[2.625rem] shrink-0 items-center justify-center rounded-[0.875rem] bg-sidebar-primary text-sidebar-primary-foreground shadow-[inset_0_1px_0_rgb(255_255_255/0.22),0_1px_2px_rgb(0_0_0/0.12),0_6px_20px_color-mix(in_srgb,var(--sidebar-primary)_32%,transparent)]">
+              <div className="sidebar-brand-mark flex h-[2.625rem] w-[2.625rem] shrink-0 items-center justify-center rounded-[0.875rem] bg-zinc-950 text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.16),0_1px_2px_rgb(0_0_0/0.12)]">
                 <BrandMark className="h-[1.375rem] w-[1.375rem]" />
               </div>
-              <span className="truncate text-[0.9375rem] font-bold tracking-[-0.02em] text-white">RealSite</span>
+              <span className="truncate text-[1rem] font-extrabold tracking-[-0.035em] text-zinc-950">RealSite</span>
             </Link>
             <Button
               type="button"
               variant="ghost"
               size="icon"
-              className="size-8 shrink-0 text-sidebar-foreground/70 hover:bg-sidebar-hover hover:text-sidebar-accent-foreground"
+              className="size-8 shrink-0 rounded-xl text-zinc-500 hover:bg-zinc-100 hover:text-zinc-950"
               onClick={toggle}
               aria-label="Collapse sidebar"
             >
@@ -111,11 +133,11 @@ export function DashboardSidebar({
               href="/dashboard"
               className="flex flex-col items-center gap-2 text-sidebar-foreground transition-opacity hover:opacity-90"
             >
-              <div className="sidebar-brand-mark flex h-[3.125rem] w-[3.125rem] shrink-0 items-center justify-center rounded-2xl bg-sidebar-primary text-sidebar-primary-foreground shadow-[inset_0_1px_0_rgb(255_255_255/0.22),0_1px_2px_rgb(0_0_0/0.12),0_6px_20px_color-mix(in_srgb,var(--sidebar-primary)_32%,transparent)]">
+              <div className="sidebar-brand-mark flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-zinc-700 shadow-[0_1px_2px_rgb(0_0_0/0.08),0_0_0_1px_rgb(0_0_0/0.08)]">
                 <BrandMark className="h-6 w-6" />
               </div>
             </Link>
-            <p className="mt-1 text-center text-[10px] font-medium capitalize tracking-wide text-white/50">
+            <p className="mt-1 text-center text-[10px] font-medium capitalize tracking-wide text-zinc-500">
               {role.replace(/_/g, " ")}
             </p>
             {!isMobile && (
@@ -123,7 +145,7 @@ export function DashboardSidebar({
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="mt-2 size-8 text-sidebar-foreground/55 hover:bg-sidebar-hover hover:text-sidebar-accent-foreground"
+                className="mt-2 size-8 rounded-xl text-zinc-500 hover:bg-zinc-100 hover:text-zinc-950"
                 onClick={toggle}
                 aria-label="Expand sidebar"
               >
@@ -137,12 +159,19 @@ export function DashboardSidebar({
       <SidebarContent className="min-h-0 flex-1 gap-0 overflow-y-auto overflow-x-hidden py-0.5">
         {groups.map((group) => (
           <SidebarGroup key={group.label}>
+            {navExpanded && (
+              <SidebarGroupLabel className="px-3 text-[0.8125rem] font-semibold capitalize tracking-[-0.01em] text-zinc-500">
+                {group.label}
+              </SidebarGroupLabel>
+            )}
             <SidebarMenu>
               {group.items.map((item) => {
                 const Icon = item.icon;
                 const active =
-                  pathname === item.href ||
-                  (item.href !== "/dashboard" && pathname.startsWith(item.href + "/"));
+                  item.href === "/dashboard/brochures"
+                    ? pathname === item.href || /^\/dashboard\/brochures\/[0-9a-f-]{36}(\/(sessions|reports).*)?$/i.test(pathname)
+                    : pathname === item.href ||
+                      (item.href !== "/dashboard" && pathname.startsWith(item.href + "/"));
                 return (
                   <SidebarMenuItem key={item.href}>
                     <NavLink
@@ -151,7 +180,7 @@ export function DashboardSidebar({
                       label={item.label}
                       shortLabel={item.shortLabel}
                       icon={Icon}
-                      expanded={expanded}
+                      expanded={navExpanded}
                     />
                   </SidebarMenuItem>
                 );
@@ -162,6 +191,12 @@ export function DashboardSidebar({
       </SidebarContent>
 
       <SidebarFooter className="sidebar-theme-footer mt-auto shrink-0 border-t border-sidebar-border/60 bg-sidebar p-0">
+        {userLabel && navExpanded && (
+          <div className="border-b border-sidebar-border/60 px-4 py-3">
+            <p className="truncate text-xs font-semibold text-zinc-950">{userLabel}</p>
+            <p className="truncate text-[10px] capitalize text-zinc-500">{role.replace(/_/g, " ")}</p>
+          </div>
+        )}
         <SidebarThemePicker value={themeId} mode={mode} onChange={setThemeId} onModeChange={setMode} />
       </SidebarFooter>
     </Sidebar>

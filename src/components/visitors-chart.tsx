@@ -54,9 +54,13 @@ export function VisitorsChart({
 	const gradientId = `visitors-area-${useId().replace(/:/g, "")}`;
 
 	return (
-		<Card className="md:col-span-2 lg:col-span-3">
+		<Card className="bi-finance-card md:col-span-2 lg:col-span-3">
 			<CardHeader className="flex flex-row items-start justify-between px-6 pb-2">
 				<div className="flex flex-col gap-1.5">
+					<div className="mb-1 flex items-center gap-2">
+						<CardTitle className="text-base">Sessions trend</CardTitle>
+						<span className="bi-soft-select">Area chart</span>
+					</div>
 					<CardTitle className="metric-value metric-value--hero">
 						{formatInteger(totalVisitors)}
 					</CardTitle>

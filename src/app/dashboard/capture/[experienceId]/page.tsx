@@ -10,10 +10,13 @@ function CaptureContent({ experienceId }: { experienceId: string }) {
   const propertyId = params.get("propertyId") ?? "";
 
   return (
-    <div className="space-y-4">
-      <div>
-        <h1 className="text-xl font-semibold md:text-2xl">Mobile Walkthrough Capture</h1>
-        <p className="text-sm text-muted-foreground">Create walkthrough using phone camera</p>
+    <div className="bi-dashboard bi-module-shell p-6">
+      <div className="bi-module-hero">
+        <div>
+          <p className="bi-module-kicker">360 Capture</p>
+          <h1>Mobile walkthrough capture</h1>
+          <p>Create a walkthrough using the phone camera, then review the captured rooms inside the same modern reporting experience.</p>
+        </div>
       </div>
       {propertyId ? (
         <MobileCaptureWizard experienceId={experienceId} propertyId={propertyId} />

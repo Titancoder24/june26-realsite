@@ -49,3 +49,4 @@ next-env.d.ts
 /motion-*.mp4
 public/videos/auth/demo-walkthrough.mp4
 scripts/capture-responsive-screenshots.mjs
+.env*

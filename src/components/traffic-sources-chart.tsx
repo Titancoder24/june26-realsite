@@ -43,10 +43,13 @@ export function TrafficSourcesChart({
 	const maxSessions = Math.max(...chartData.map((d) => d.sessions), 1);
 
 	return (
-		<Card>
-			<CardHeader className="border-b border-border/50 px-6 pb-4">
-				<CardTitle className="text-balance">{title}</CardTitle>
-				<CardDescription className="text-pretty leading-relaxed">{description}</CardDescription>
+		<Card className="bi-finance-card">
+			<CardHeader className="flex flex-row items-start justify-between border-b border-border/50 px-6 pb-4">
+				<div>
+					<CardTitle className="text-balance text-base">{title}</CardTitle>
+					<CardDescription className="text-pretty leading-relaxed">{description}</CardDescription>
+				</div>
+				<span className="bi-soft-select">Bar chart</span>
 			</CardHeader>
 			<CardContent className="p-0 py-1">
 				<ShareBarList aria-label="Sessions by traffic source">

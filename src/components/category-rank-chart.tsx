@@ -110,11 +110,14 @@ export function CategoryRankChart({
 		[source]
 	);
 
-	return (
-		<Card>
-			<CardHeader>
-				<CardTitle>{title}</CardTitle>
-				<CardDescription>{description}</CardDescription>
+		return (
+		<Card className="bi-finance-card">
+			<CardHeader className="flex flex-row items-start justify-between">
+				<div>
+					<CardTitle className="text-base">{title}</CardTitle>
+					<CardDescription>{description}</CardDescription>
+				</div>
+				<span className="bi-soft-select">Pie chart</span>
 			</CardHeader>
 			<CardContent className="my-auto p-0">
 				<ChartContainer

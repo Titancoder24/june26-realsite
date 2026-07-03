@@ -1,11 +1,7 @@
 /** Extract plain text from a PDF buffer (server-side only). */
 export async function extractPdfText(buffer: Buffer): Promise<string> {
-  // pdf-parse is Node-only; dynamic import keeps it out of client bundles.
-  const pdfParse = (await import("pdf-parse")).default as (
-    data: Buffer,
-  ) => Promise<{ text: string; numpages: number }>;
-
-  const result = await pdfParse(buffer);
+  const { parsePdfBuffer } = await import("@/lib/pdf-parse-server");
+  const result = await parsePdfBuffer(buffer);
   const text = result.text?.replace(/\s+/g, " ").trim() ?? "";
   if (!text) {
     throw new Error("No readable text found in this PDF. Try a text-based brochure or paste the content manually.");

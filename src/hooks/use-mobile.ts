@@ -4,7 +4,8 @@ import { getIsMobileViewport, MOBILE_BREAKPOINT } from "@/lib/mobile-viewport";
 export { MOBILE_BREAKPOINT };
 
 export function useIsMobile() {
-  const [isMobile, setIsMobile] = React.useState(getIsMobileViewport);
+  // Default false so desktop sidebar renders on first paint (SSR/hydration).
+  const [isMobile, setIsMobile] = React.useState(false);
 
   React.useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);

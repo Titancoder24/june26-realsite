@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { Building2, MapPin } from "lucide-react";
-import { DashboardPageHeader } from "@/components/dashboard/dashboard-page-header";
 import { CategoryRankChart } from "@/components/category-rank-chart";
 import { VisitorsChart } from "@/components/visitors-chart";
 
@@ -34,23 +33,26 @@ export default function ProjectsPage() {
   }, [projects, totalProperties]);
 
   return (
-    <div className="space-y-6">
-      <DashboardPageHeader
-        title="Developments"
-        description="Manage project portfolios and track listing distribution."
-        actions={<Button className="w-full sm:w-auto" asChild><Link href="/dashboard/projects/new">New Development</Link></Button>}
-      />
+    <div className="bi-dashboard bi-module-shell p-6">
+      <div className="bi-module-hero">
+        <div>
+          <p className="bi-module-kicker">Developments</p>
+          <h1>Development performance</h1>
+          <p>Manage project portfolios, listing distribution, walkthrough coverage, and buyer sessions in the same modern report view.</p>
+        </div>
+        <Button className="w-full sm:w-auto" asChild><Link href="/dashboard/projects/new">New Development</Link></Button>
+      </div>
 
       <div className="grid gap-3 sm:grid-cols-3">
-        <Card>
+        <Card className="bi-finance-card bi-finance-card-blue">
           <CardHeader className="pb-2"><CardTitle className="metric-label">Total Developments</CardTitle></CardHeader>
           <CardContent><p className="metric-value metric-value--compact">{projects.length}</p></CardContent>
         </Card>
-        <Card>
+        <Card className="bi-finance-card bi-finance-card-green">
           <CardHeader className="pb-2"><CardTitle className="metric-label">Total Listings</CardTitle></CardHeader>
           <CardContent><p className="metric-value metric-value--compact">{totalProperties}</p></CardContent>
         </Card>
-        <Card>
+        <Card className="bi-finance-card bi-finance-card-purple">
           <CardHeader className="pb-2"><CardTitle className="metric-label">Avg Listings / Dev</CardTitle></CardHeader>
           <CardContent><p className="metric-value metric-value--compact">{projects.length ? Math.round(totalProperties / projects.length) : 0}</p></CardContent>
         </Card>
@@ -68,7 +70,7 @@ export default function ProjectsPage() {
 
       <div className="grid gap-4 md:grid-cols-2">
         {projects.map((p) => (
-          <Card key={p.id} className="border-border/60 shadow-sm transition-shadow hover:shadow-md">
+          <Card key={p.id} className="bi-finance-card border-border/60 shadow-sm transition-shadow hover:shadow-md">
             <CardHeader className="flex flex-row items-start justify-between gap-2">
               <div className="flex items-start gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
@@ -100,7 +102,7 @@ export default function ProjectsPage() {
           </Card>
         ))}
         {!projects.length && (
-          <Card className="col-span-full border-dashed">
+          <Card className="bi-finance-card col-span-full border-dashed">
             <CardContent className="flex flex-col items-center py-16 text-center">
               <Building2 className="mb-4 h-12 w-12 text-muted-foreground/40" />
               <p className="font-medium">No developments yet</p>

@@ -16,6 +16,7 @@ import { DashboardSidebar } from "@/components/shell/dashboard-sidebar";
 import { AppThemeProvider, useAppTheme } from "@/components/shell/app-theme-provider";
 import { AppThemeToggle } from "@/components/shell/app-theme-toggle";
 import { getVisibleNavGroups } from "@/components/shell/dashboard-nav";
+import { MobileBottomNav } from "@/components/shell/mobile-bottom-nav";
 import { SidebarExpandProvider, useSidebarExpand } from "@/hooks/use-sidebar-expand";
 import { cn } from "@/lib/utils";
 
@@ -122,13 +123,14 @@ function DashboardShellInner({ children }: { children: React.ReactNode }) {
             isFullscreenRoute
               ? "flex min-w-0 flex-1 flex-col overflow-hidden"
               : cn(
-                  "flex min-w-0 flex-1 flex-col overflow-x-hidden px-5 py-6 sm:px-8 sm:py-8 md:px-10 md:py-10",
+                  "flex min-w-0 flex-1 flex-col overflow-x-hidden px-5 py-6 pb-24 sm:px-8 sm:py-8 md:px-10 md:py-10 md:pb-10",
                   mode === "dark" && "dashboard-main-dark",
                 )
           }
         >
           {children}
         </main>
+        {!isFullscreenRoute && <MobileBottomNav role={role} />}
       </SidebarInset>
     </div>
   );

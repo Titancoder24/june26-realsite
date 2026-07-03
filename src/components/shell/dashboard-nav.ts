@@ -10,12 +10,17 @@ import {
   LayoutDashboard,
   MapPinned,
   Megaphone,
+  MessageCircle,
   Mic2,
   Package,
   Settings2,
+  GraduationCap,
   UserRoundSearch,
   Users2,
   Video,
+  BookOpen,
+  FileBarChart2,
+  UploadCloud,
 } from "lucide-react";
 import type { UserRole } from "@/types/domain";
 import { canAccessRoute } from "@/components/auth/role-guard";
@@ -48,7 +53,7 @@ export const DASHBOARD_NAV_GROUPS: NavGroup[] = [
     label: "Property Portfolio",
     items: [
       { href: "/dashboard/projects", label: "Developments", shortLabel: "Projects", icon: Building2, minRole: "project_manager" },
-      { href: "/dashboard/experiences/new", label: "360° Capture", shortLabel: "Capture", icon: Camera, minRole: "project_manager", mobileTab: true },
+      { href: "/dashboard/experiences/new", label: "360° Capture", shortLabel: "Capture", icon: Camera, minRole: "project_manager" },
       { href: "/dashboard/properties", label: "Listings", shortLabel: "Listings", icon: Building, minRole: "project_manager", mobileTab: true },
       { href: "/dashboard/experiences", label: "Virtual Tours", shortLabel: "Tours", icon: Compass, minRole: "project_manager" },
       { href: "/dashboard/floor-maps", label: "Floor Plans", shortLabel: "Floors", icon: MapPinned, minRole: "project_manager" },
@@ -60,9 +65,19 @@ export const DASHBOARD_NAV_GROUPS: NavGroup[] = [
     items: [
       { href: "/dashboard/knowledge", label: "Property Intel", shortLabel: "Intel", icon: FileStack, minRole: "project_manager" },
       { href: "/dashboard/ai-agent", label: "Voice Concierge", shortLabel: "Voice", icon: Mic2, minRole: "project_manager" },
+      { href: "/dashboard/sales-training", label: "Sales Training", shortLabel: "Training", icon: GraduationCap, minRole: "sales_agent" },
+      { href: "/dashboard/sales-training/chat", label: "Chat", shortLabel: "Chat", icon: MessageCircle, minRole: "sales_agent" },
       { href: "/dashboard/leads", label: "Lead Pipeline", shortLabel: "Leads", icon: UserRoundSearch, minRole: "sales_agent", mobileTab: true },
       { href: "/dashboard/site-visits", label: "Site Visits", shortLabel: "Visits", icon: Video, minRole: "sales_agent" },
       { href: "/dashboard/campaigns", label: "Campaign Hub", shortLabel: "Campaigns", icon: Megaphone, minRole: "marketing_manager" },
+    ],
+  },
+  {
+    label: "Brochure Intelligence",
+    items: [
+      { href: "/dashboard/brochures/reports", label: "Brochure Reports", shortLabel: "Reports", icon: FileBarChart2, minRole: "sales_agent", mobileTab: true },
+      { href: "/dashboard/brochures/new", label: "Upload Brochure", shortLabel: "Upload", icon: UploadCloud, minRole: "sales_agent" },
+      { href: "/dashboard/brochures", label: "Brochure Builder", shortLabel: "Builder", icon: BookOpen, minRole: "sales_agent" },
     ],
   },
   {

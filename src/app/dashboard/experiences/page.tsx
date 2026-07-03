@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Camera, Compass, Globe } from "lucide-react";
-import { DashboardPageHeader } from "@/components/dashboard/dashboard-page-header";
 import { CategoryRankChart } from "@/components/category-rank-chart";
 import { TrafficSourcesChart } from "@/components/traffic-sources-chart";
 import { shouldShowImageWalkthroughInDashboard } from "@/lib/image-walkthrough-approval";
@@ -69,18 +68,21 @@ export default function ExperiencesPage() {
   }, [tours360, tours3d, walkthroughs, sceneStudio]);
 
   return (
-    <div className="space-y-6">
-      <DashboardPageHeader
-        title="Virtual Tours"
-        description="360° captures and 3D walkthroughs linked to your listings."
-        actions={<Button className="w-full sm:w-auto" asChild><Link href="/dashboard/experiences/new">Launch 360° Capture</Link></Button>}
-      />
+    <div className="bi-dashboard bi-module-shell p-6">
+      <div className="bi-module-hero">
+        <div>
+          <p className="bi-module-kicker">360 Capture</p>
+          <h1>Virtual tour command center</h1>
+          <p>Track 360 captures, 3D walkthroughs, scene studios, publish status, and buyer traffic with the same report design as Brochure Reports.</p>
+        </div>
+        <Button className="w-full sm:w-auto" asChild><Link href="/dashboard/experiences/new">Launch 360° Capture</Link></Button>
+      </div>
 
       <div className="kpi-card-grid kpi-card-grid--compact">
-        <Card><CardHeader className="pb-2"><CardTitle className="metric-label">Total Tours</CardTitle></CardHeader><CardContent><p className="metric-value">{experiences.length}</p></CardContent></Card>
-        <Card><CardHeader className="pb-2"><CardTitle className="metric-label">Published</CardTitle></CardHeader><CardContent><p className="metric-value text-primary">{published}</p></CardContent></Card>
-        <Card><CardHeader className="pb-2"><CardTitle className="metric-label">360° Captures</CardTitle></CardHeader><CardContent><p className="metric-value">{tours360}</p></CardContent></Card>
-        <Card><CardHeader className="pb-2"><CardTitle className="metric-label">3D Walkthroughs</CardTitle></CardHeader><CardContent><p className="metric-value">{tours3d}</p></CardContent></Card>
+        <Card className="bi-finance-card bi-finance-card-blue"><CardHeader className="pb-2"><CardTitle className="metric-label">Total Tours</CardTitle></CardHeader><CardContent><p className="metric-value">{experiences.length}</p></CardContent></Card>
+        <Card className="bi-finance-card bi-finance-card-green"><CardHeader className="pb-2"><CardTitle className="metric-label">Published</CardTitle></CardHeader><CardContent><p className="metric-value text-primary">{published}</p></CardContent></Card>
+        <Card className="bi-finance-card bi-finance-card-orange"><CardHeader className="pb-2"><CardTitle className="metric-label">360° Captures</CardTitle></CardHeader><CardContent><p className="metric-value">{tours360}</p></CardContent></Card>
+        <Card className="bi-finance-card bi-finance-card-purple"><CardHeader className="pb-2"><CardTitle className="metric-label">3D Walkthroughs</CardTitle></CardHeader><CardContent><p className="metric-value">{tours3d}</p></CardContent></Card>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
@@ -95,7 +97,7 @@ export default function ExperiencesPage() {
 
       <div className="space-y-3">
         {visibleExperiences.map((e) => (
-          <Card key={e.id} className="border-border/60">
+          <Card key={e.id} className="bi-finance-card border-border/60">
             {e.type === "cinematic_walkthrough" && (e.walkthrough_summary?.preview_video_url || e.walkthrough_summary?.poster_url) && (
               <div className="border-b bg-muted/30 px-4 pt-4">
                 {e.walkthrough_summary?.preview_video_url ? (
@@ -164,7 +166,7 @@ export default function ExperiencesPage() {
           </Card>
         ))}
         {!visibleExperiences.length && (
-          <Card className="border-dashed">
+          <Card className="bi-finance-card border-dashed">
             <CardContent className="flex flex-col items-center py-16 text-center">
               <Compass className="mb-4 h-12 w-12 text-muted-foreground/40" />
               <p className="font-medium">No virtual tours yet</p>

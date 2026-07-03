@@ -53,7 +53,7 @@ export function DashboardStats({ stats }: { stats?: Stat[] }) {
 	return (
 		<>
 			{rows.map((s) => (
-				<Card className={cn("shadow-none dark:ring-0")} key={s.label}>
+				<Card className={cn("bi-finance-card shadow-none dark:ring-0")} key={s.label}>
 					<CardHeader>
 						<CardTitle className="metric-label">
 							{s.label}

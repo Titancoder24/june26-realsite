@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { DashboardPageHeader } from "@/components/dashboard/dashboard-page-header";
 import { SpatialCommandStats } from "@/components/dashboard/spatial/spatial-command-stats";
 import { ConversionFunnelCard } from "@/components/dashboard/spatial/conversion-funnel-card";
 import { HotLeadsCard } from "@/components/dashboard/spatial/hot-leads-card";
@@ -111,21 +110,22 @@ export function WalkthroughDashboard() {
       : undefined;
 
   return (
-    <div className="space-y-8">
-      <DashboardPageHeader
-        title="Walkthrough Dashboard"
-        description="Property walkthrough engagement, scroll analytics, annotation interactions, and conversion reporting."
-        actions={
-          <>
-            <Button variant="outline" className="w-full sm:w-auto" asChild>
-              <Link href="/dashboard/experiences/new">New walkthrough</Link>
-            </Button>
-            <Button className="w-full sm:w-auto" asChild>
-              <Link href="/dashboard/site-visits">Site visits</Link>
-            </Button>
-          </>
-        }
-      />
+    <div className="bi-dashboard bi-module-shell p-6">
+      <div className="bi-module-hero">
+        <div>
+          <p className="bi-module-kicker">Walkthrough Reports</p>
+          <h1>Walkthrough dashboard</h1>
+          <p>Property walkthrough engagement, scroll analytics, annotation interactions, and conversion reporting in a Brochure Reports-style command center.</p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Button variant="outline" className="w-full sm:w-auto" asChild>
+            <Link href="/dashboard/experiences/new">New walkthrough</Link>
+          </Button>
+          <Button className="w-full sm:w-auto" asChild>
+            <Link href="/dashboard/site-visits">Site visits</Link>
+          </Button>
+        </div>
+      </div>
 
       <div className="stat-card-grid">
         <SpatialCommandStats stats={stats} />
@@ -151,7 +151,7 @@ export function WalkthroughDashboard() {
 
       <AnalyticsPrepPanel analyticsPrep={stats.analyticsPrep} />
 
-      <Card className="shadow-none dark:ring-0">
+      <Card className="bi-finance-card shadow-none dark:ring-0">
         <CardHeader>
           <CardTitle>Recent walkthrough activity</CardTitle>
           <CardDescription>Viewer events from cinematic walkthrough sessions</CardDescription>

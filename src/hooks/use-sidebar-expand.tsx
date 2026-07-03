@@ -5,8 +5,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 const STORAGE_KEY = "realsite-sidebar-expanded";
 
-export const SIDEBAR_WIDTH_RAIL = "7.5rem";
-export const SIDEBAR_WIDTH_EXPANDED = "15.5rem";
+export const SIDEBAR_WIDTH_RAIL = "4.5rem";
+export const SIDEBAR_WIDTH_EXPANDED = "17.5rem";
 
 type SidebarExpandContextValue = {
   expanded: boolean;
@@ -30,7 +30,7 @@ function useSidebarExpandState(): SidebarExpandContextValue {
     if (stored === "true" || stored === "false") {
       setExpandedState(stored === "true");
     } else {
-      setExpandedState(false);
+      setExpandedState(true);
     }
     setReady(true);
   }, []);
