@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { createClient, isSupabaseBrowserConfigured } from "@/lib/supabase/client";
 import { hasRole, ROUTE_PERMISSIONS } from "@/lib/auth/rbac";
 import type { UserRole } from "@/types/domain";
 
@@ -10,6 +10,10 @@ export function useUserRole() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!isSupabaseBrowserConfigured()) {
+      setLoading(false);
+      return;
+    }
     const supabase = createClient();
     supabase.auth.getUser().then(async ({ data: { user } }) => {
       if (!user) { setLoading(false); return; }
