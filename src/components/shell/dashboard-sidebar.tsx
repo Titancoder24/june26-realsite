@@ -23,7 +23,7 @@ import type { NavGroup } from "@/components/shell/dashboard-nav";
 import type { UserRole } from "@/types/domain";
 import { BrandMark } from "@/components/shell/brand-mark";
 import { cn } from "@/lib/utils";
-import { createClient } from "@/lib/supabase/client";
+import { createClient, isSupabaseBrowserConfigured } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
 
 function NavLink({
@@ -80,6 +80,7 @@ export function DashboardSidebar({
   const [userLabel, setUserLabel] = useState<string>("");
 
   useEffect(() => {
+    if (!isSupabaseBrowserConfigured()) return;
     const supabase = createClient();
     void supabase.auth.getUser().then(async ({ data: { user } }) => {
       if (!user) return;
